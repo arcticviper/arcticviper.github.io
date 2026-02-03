@@ -13,9 +13,10 @@ function incrementCounter() {
     clickCount++;
     
     if (clickCount === 1) {
-        // After first click, change text and show counter
-        counterLabel.textContent = 'Times Petted: ';
+        // After first click, change text and show counter, remove pulse animation
+        counterLabel.innerHTML = '<span style="font-size: 20px; display: block; text-align: center;">Tap to Pet</span>Times Petted: ';
         counterValue.style.display = 'inline';
+        document.getElementById('click-counter').classList.remove('pulse');
     }
     
     counterValue.textContent = clickCount;
