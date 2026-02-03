@@ -1,4 +1,5 @@
 const mainImage = document.getElementById('main-image');
+const emoteImage = document.getElementById('emote');
 const image1 = 'images/image1.jpg';
 const image2 = 'images/image2.jpg';
 const counterValue = document.getElementById('counter-value');
@@ -25,6 +26,7 @@ document.addEventListener('mousedown', function(e) {
     if (e.button === 0) { // Left click only
         isMouseDown = true;
         mainImage.src = image2;
+        emoteImage.src = 'images/emote.gif';
         incrementCounter();
     }
 });
@@ -33,6 +35,7 @@ document.addEventListener('mouseup', function(e) {
     if (e.button === 0) { // Left click only
         isMouseDown = false;
         mainImage.src = image1;
+        emoteImage.src = 'images/emote.png';
     }
 });
 
@@ -40,12 +43,14 @@ document.addEventListener('mouseup', function(e) {
 document.addEventListener('touchstart', function(e) {
     e.preventDefault();
     mainImage.src = image2;
+    emoteImage.src = 'images/emote.gif';
     incrementCounter();
 });
 
 document.addEventListener('touchend', function(e) {
     e.preventDefault();
     mainImage.src = image1;
+    emoteImage.src = 'images/emote.png';
 });
 
 // Prevent context menu on right click
