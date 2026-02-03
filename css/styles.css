@@ -44,6 +44,90 @@ body {
     pointer-events: none;
 }
 
+#stars-burst {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+    z-index: 450;
+    pointer-events: none;
+    opacity: 0;
+}
+
+#stars-burst.active {
+    animation: starsBurst 1s ease-out;
+}
+
+@keyframes starsBurst {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+}
+
+#stars-burst::before,
+#stars-burst::after {
+    content: '✨';
+    position: absolute;
+    font-size: 30px;
+    animation: inherit;
+}
+
+#stars-burst::before {
+    top: 20%;
+    left: 20%;
+    animation-delay: 0.1s;
+}
+
+#stars-burst::after {
+    bottom: 20%;
+    right: 20%;
+    animation-delay: 0.2s;
+}
+
+/* Additional stars using box-shadow for more burst effect */
+#stars-burst.active::before {
+    box-shadow: 
+        100px 50px 0 -20px gold,
+        -80px 30px 0 -18px #FFD700,
+        60px -40px 0 -19px #FFA500,
+        -50px -60px 0 -21px #FFFF00,
+        120px -20px 0 -17px #FFE4B5,
+        -100px 80px 0 -20px #F0E68C,
+        40px 90px 0 -18px gold,
+        -130px -10px 0 -19px #FFD700,
+        90px 20px 0 -20px #FFA500,
+        -20px -90px 0 -18px #FFFF00,
+        150px 40px 0 -21px #FFE4B5,
+        -70px -40px 0 -17px #F0E68C;
+}
+
+#stars-burst.active::after {
+    box-shadow: 
+        -120px -50px 0 -20px gold,
+        80px -30px 0 -18px #FFD700,
+        -60px 40px 0 -19px #FFA500,
+        50px 60px 0 -21px #FFFF00,
+        -120px 20px 0 -17px #FFE4B5,
+        100px -80px 0 -20px #F0E68C,
+        -40px -90px 0 -18px gold,
+        130px 10px 0 -19px #FFD700,
+        -90px -20px 0 -20px #FFA500,
+        20px 90px 0 -18px #FFFF00,
+        -150px -40px 0 -21px #FFE4B5,
+        70px 40px 0 -17px #F0E68C;
+}
+
 #fullscreen-btn {
     position: fixed;
     bottom: 20px;
