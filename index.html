@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Image Switcher</title>
+    <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+    <div id="image-container">
+        <img id="main-image" src="images/image1.jpg" alt="Full screen image" draggable="false"/>
+    </div>
+    
+    <div id="click-counter">
+        <span id="counter-label">Click to Pet</span>
+        <span id="counter-value" style="display: none;">0</span>
+    </div>
+    
+    <button id="fullscreen-btn" aria-label="Toggle fullscreen">
+        <svg id="enter-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+        </svg>
+        <svg id="exit-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+            <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path>
+        </svg>
+    </button>
+    
+    <script src="js/script.js"></script>
+
+
+</body></html>
