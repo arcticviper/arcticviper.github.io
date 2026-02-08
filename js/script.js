@@ -127,14 +127,18 @@ function exitFullscreen() {
 
 // Update button icon based on fullscreen state
 function updateFullscreenIcon() {
+    const clickCounter = document.getElementById('click-counter');
+    
     if (isFullscreen()) {
         enterIcon.style.display = 'none';
         exitIcon.style.display = 'block';
         fullscreenBtn.style.display = 'none'; // Hide button in fullscreen
+        clickCounter.classList.add('fullscreen-expanded'); // Expand click counter
     } else {
         enterIcon.style.display = 'block';
         exitIcon.style.display = 'none';
         fullscreenBtn.style.display = 'flex'; // Show button when not in fullscreen
+        clickCounter.classList.remove('fullscreen-expanded'); // Restore click counter
     }
 }
 
