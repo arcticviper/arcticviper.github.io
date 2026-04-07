@@ -34,6 +34,7 @@ function incrementCounter() {
 
 // Mouse events for desktop
 document.addEventListener('mousedown', function(e) {
+    if (e.target.closest('#gambling-btn') || e.target.closest('#fullscreen-btn')) return;
     if (e.button === 0) { // Left click only
         isMouseDown = true;
         mainImage.src = image2;
@@ -58,6 +59,8 @@ document.addEventListener('mouseup', function(e) {
 
 // Touch events for mobile
 document.addEventListener('touchstart', function(e) {
+    // Skip if touching interactive buttons
+    if (e.target.closest('#gambling-btn') || e.target.closest('#fullscreen-btn')) return;
     e.preventDefault();
     mainImage.src = image2;
     // Use emote2.gif if next click will be a multiple of 10, otherwise use regular emote.gif
@@ -66,6 +69,8 @@ document.addEventListener('touchstart', function(e) {
 });
 
 document.addEventListener('touchend', function(e) {
+    // Skip if touching interactive buttons
+    if (e.target.closest('#gambling-btn') || e.target.closest('#fullscreen-btn')) return;
     e.preventDefault();
     mainImage.src = image1;
     // Set correct emote based on click count
