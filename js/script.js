@@ -182,6 +182,20 @@ fullscreenBtn.addEventListener('touchend', function(e) {
     toggleFullscreen(e);
 });
 
+// Gambling button - prevent touch conflicts with image switching
+const gamblingBtn = document.getElementById('gambling-btn');
+gamblingBtn.addEventListener('mousedown', function(e) {
+    e.stopPropagation();
+});
+gamblingBtn.addEventListener('touchstart', function(e) {
+    e.stopPropagation();
+});
+gamblingBtn.addEventListener('touchend', function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    window.location.href = 'gambling/slot-machine.html';
+});
+
 // Listen for all fullscreen change events (vendor prefixes)
 document.addEventListener('fullscreenchange', updateFullscreenIcon);
 document.addEventListener('webkitfullscreenchange', updateFullscreenIcon);
