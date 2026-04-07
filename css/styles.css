@@ -135,6 +135,45 @@ body {
         70px 40px 0 -17px #F0E68C;
 }
 
+#gambling-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    text-decoration: none;
+    font-size: 24px;
+}
+
+#gambling-btn svg {
+    display: none;
+}
+
+#gambling-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: scale(1.1);
+}
+
+#gambling-btn:active {
+    transform: scale(0.95);
+}
+
 #fullscreen-btn {
     position: fixed;
     bottom: 20px;
@@ -176,6 +215,13 @@ body {
         height: 56px;
         bottom: 24px;
         right: 24px;
+    }
+    
+    #gambling-btn {
+        width: 56px;
+        height: 56px;
+        bottom: 24px;
+        left: 24px;
     }
 }
 

@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot Machine</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .slot-machine {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .reel {
+            width: 100px;
+            height: 240px;
+            background: #f0f0f0;
+            border: 4px solid #333;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            font-weight: bold;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .reel-inner {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.1s linear;
+            top: 60px;
+        }
+
+        .reel-symbol {
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+        }
+
+        .reel-symbol img {
+            max-width: 80px;
+            max-height: 80px;
+            object-fit: contain;
+        }
+
+        .reel.spinning .reel-inner {
+            animation: none;
+        }
+
+        .message {
+            font-size: 24px;
+            font-weight: bold;
+            min-height: 30px;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .message.winner {
+            color: #f39c12;
+            animation: pulse 0.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .instruction {
+            color: #666;
+            font-size: 18px;
+        }
+
+        .credits-section {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .credits-display {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .credits-amount {
+            color: #27ae60;
+        }
+
+        .high-score {
+            font-size: 18px;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .high-score.record {
+            color: #f39c12;
+        }
+
+        .name-input-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .name-input-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .name-input-box h2 {
+            color: #f39c12;
+            margin-bottom: 20px;
+        }
+
+        .name-input-box input {
+            font-size: 24px;
+            padding: 10px;
+            width: 120px;
+            text-align: center;
+            text-transform: uppercase;
+            border: 2px solid #667eea;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            letter-spacing: 10px;
+        }
+
+        .name-input-box button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .name-input-box button:hover {
+            background: #5568d3;
+        }
+
+        .bet-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .bet-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .bet-button:hover {
+            background: #5568d3;
+        }
+
+        .bet-button:active {
+            transform: scale(0.95);
+        }
+
+        .bet-display {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            min-width: 100px;
+        }
+
+        .game-over {
+            color: #e74c3c;
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        .reset-button {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .reset-button:hover {
+            background: #229954;
+        }
+
+        .autospin-controls {
+            margin-top: 15px;
+        }
+
+        .autospin-button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .autospin-button:hover {
+            background: #c0392b;
+        }
+
+        .autospin-button.active {
+            background: #27ae60;
+        }
+
+        .autospin-button.active:hover {
+            background: #229954;
+        }
+
+        .fullscreen-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 999;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .fullscreen-button:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .fullscreen-button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <button class="fullscreen-button" id="fullscreenBtn" title="Toggle Fullscreen">⛶</button>
+    
+    <div class="container">
+        <h1>🎰 Arctic 🎰</h1>
+        
+        <div class="credits-section">
+            <div class="credits-display">
+                Credits: <span class="credits-amount" id="credits">100</span>
+            </div>
+            <div class="high-score">
+                Your Best: <span id="sessionBest">100</span>
+            </div>
+            <div class="high-score record">
+                Record: <span id="highScore">100</span> <span id="highScoreName"></span>
+            </div>
+            <div class="bet-controls">
+                <button class="bet-button" id="decreaseBet">-</button>
+                <div class="bet-display">Bet: <span id="betAmount">10</span></div>
+                <button class="bet-button" id="increaseBet">+</button>
+            </div>
+            <div class="autospin-controls">
+                <button class="autospin-button" id="autoSpinBtn">Auto Spin: OFF</button>
+            </div>
+        </div>
+
+        <div class="slot-machine">
+            <div class="reel" id="reel1">
+                <div class="reel-inner" id="reel1-inner"></div>
+            </div>
+            <div class="reel" id="reel2">
+                <div class="reel-inner" id="reel2-inner"></div>
+            </div>
+            <div class="reel" id="reel3">
+                <div class="reel-inner" id="reel3-inner"></div>
+            </div>
+        </div>
+        <div class="message" id="message"></div>
+        <div class="instruction">Tap or click anywhere to spin!</div>
+        <div class="game-over" id="gameOver" style="display: none;">
+            Out of credits!
+            <br>
+            <button class="reset-button" id="resetButton">Play Again</button>
+        </div>
+    </div>
+
+    <div class="name-input-modal" id="nameInputModal">
+        <div class="name-input-box">
+            <h2>🎉 New Record! 🎉</h2>
+            <p>Enter your name (3 characters):</p>
+            <input type="text" id="nameInput" maxlength="3" placeholder="AAA">
+            <br>
+            <button id="submitName">Submit</button>
+        </div>
+    </div>
+
+    <script>
+        // Check for images in the images folder
+        const imageSymbols = [
+            'cherry.png',
+            'lemon.png',
+            'orange.png',
+            'grape.png',
+            'watermelon.png',
+            'star.png',
+            'diamond.png'
+        ];
+        
+        let symbols = ['🍒', '🍋', '🍊', '🍇', '🍉', '⭐', '💎'];
+        let useImages = false;
+        
+        // Check if images exist
+        async function checkImages() {
+            const imageChecks = await Promise.all(
+                imageSymbols.map(img => {
+                    return new Promise((resolve) => {
+                        const testImg = new Image();
+                        testImg.onload = () => resolve(true);
+                        testImg.onerror = () => resolve(false);
+                        testImg.src = `images/${img}`;
+                    });
+                })
+            );
+            
+            // If all images exist, use images instead of emojis
+            if (imageChecks.every(exists => exists)) {
+                useImages = true;
+                symbols = imageSymbols.map(img => `images/${img}`);
+            }
+            
+            // Initialize reels after checking images
+            initializeReels();
+        }
+        
+        const reels = [
+            document.getElementById('reel1'),
+            document.getElementById('reel2'),
+            document.getElementById('reel3')
+        ];
+        const reelInners = [
+            document.getElementById('reel1-inner'),
+            document.getElementById('reel2-inner'),
+            document.getElementById('reel3-inner')
+        ];
+        const message = document.getElementById('message');
+        const creditsDisplay = document.getElementById('credits');
+        const betDisplay = document.getElementById('betAmount');
+        const sessionBestDisplay = document.getElementById('sessionBest');
+        const highScoreDisplay = document.getElementById('highScore');
+        const highScoreNameDisplay = document.getElementById('highScoreName');
+        const gameOverDiv = document.getElementById('gameOver');
+        const decreaseBetBtn = document.getElementById('decreaseBet');
+        const increaseBetBtn = document.getElementById('increaseBet');
+        const resetButton = document.getElementById('resetButton');
+        const nameInputModal = document.getElementById('nameInputModal');
+        const nameInput = document.getElementById('nameInput');
+        const submitNameBtn = document.getElementById('submitName');
+        const autoSpinBtn = document.getElementById('autoSpinBtn');
+        
+        let credits = 100;
+        let betAmount = 10;
+        let sessionBest = 100;
+        let highScore = 100;
+        let highScoreName = '';
+        let hasNewRecord = false;
+        let isSpinning = false;
+        let autoSpinActive = false;
+        let autoSpinTimer = null;
+
+        // Initialize reels with symbols
+        function initializeReels() {
+            reelInners.forEach((reelInner, index) => {
+                reelInner.innerHTML = '';
+                
+                // Get a random starting symbol
+                const startSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+                const startIndex = symbols.indexOf(startSymbol);
+                const prevSymbol = symbols[(startIndex - 1 + symbols.length) % symbols.length];
+                const nextSymbol = symbols[(startIndex + 1) % symbols.length];
+                
+                // Add previous symbol (50% visible above)
+                const prevSymbolDiv = document.createElement('div');
+                prevSymbolDiv.className = 'reel-symbol';
+                if (useImages) {
+                    prevSymbolDiv.innerHTML = `<img src="${prevSymbol}" alt="symbol">`;
+                } else {
+                    prevSymbolDiv.textContent = prevSymbol;
+                }
+                reelInner.appendChild(prevSymbolDiv);
+                
+                // Add main symbol (centered)
+                const mainSymbolDiv = document.createElement('div');
+                mainSymbolDiv.className = 'reel-symbol';
+                if (useImages) {
+                    mainSymbolDiv.innerHTML = `<img src="${startSymbol}" alt="symbol">`;
+                } else {
+                    mainSymbolDiv.textContent = startSymbol;
+                }
+                reelInner.appendChild(mainSymbolDiv);
+                
+                // Add next symbol (50% visible below)
+                const nextSymbolDiv = document.createElement('div');
+                nextSymbolDiv.className = 'reel-symbol';
+                if (useImages) {
+                    nextSymbolDiv.innerHTML = `<img src="${nextSymbol}" alt="symbol">`;
+                } else {
+                    nextSymbolDiv.textContent = nextSymbol;
+                }
+                reelInner.appendChild(nextSymbolDiv);
+                
+                // Position to show the main symbol centered with 50% of prev and next visible
+                reelInner.style.transform = 'translateY(-120px)';
+            });
+        }
+
+        // Start by checking for images
+        checkImages();
+
+        function getRandomSymbol() {
+            return symbols[Math.floor(Math.random() * symbols.length)];
+        }
+
+        function updateDisplay() {
+            creditsDisplay.textContent = credits;
+            betDisplay.textContent = betAmount;
+            
+            // Update session best if current credits exceed it
+            if (credits > sessionBest) {
+                sessionBest = credits;
+                sessionBestDisplay.textContent = sessionBest;
+                
+                // Check if session best beats the all-time record
+                if (sessionBest > highScore) {
+                    hasNewRecord = true;
+                    highScore = sessionBest;
+                    highScoreDisplay.textContent = highScore;
+                }
+            }
+            
+            // Reduce bet if it exceeds available credits
+            if (betAmount > credits && credits >= 10) {
+                betAmount = Math.floor(credits / 10) * 10;
+                betDisplay.textContent = betAmount;
+            }
+        }
+
+        function checkGameOver() {
+            if (credits < betAmount) {
+                gameOverDiv.style.display = 'block';
+                
+                // Show name input if new record was achieved
+                if (hasNewRecord) {
+                    nameInputModal.style.display = 'flex';
+                    nameInput.value = '';
+                    nameInput.focus();
+                }
+                
+                return true;
+            }
+            return false;
+        }
+
+        function spin() {
+            if (isSpinning || checkGameOver()) return;
+            
+            // Deduct bet
+            credits -= betAmount;
+            updateDisplay();
+            
+            isSpinning = true;
+            message.textContent = '';
+            message.classList.remove('winner');
+
+            // Add spinning class
+            reels.forEach(reel => reel.classList.add('spinning'));
+
+            // Determine final results
+            const results = [
+                symbols[Math.floor(Math.random() * symbols.length)],
+                symbols[Math.floor(Math.random() * symbols.length)],
+                symbols[Math.floor(Math.random() * symbols.length)]
+            ];
+
+            // Spin each reel with different durations
+            reelInners.forEach((reelInner, index) => {
+                const duration = 2000 + (index * 500); // Stagger the stops
+                const symbolHeight = 120;
+                let position = 0;
+                const spinSpeed = 20;
+                let symbolCount = reelInner.children.length;
+                
+                const spinInterval = setInterval(() => {
+                    position += symbolHeight;
+                    reelInner.style.transform = `translateY(-${position % (symbolHeight * symbolCount)}px)`;
+                    
+                    // Keep adding symbols to create infinite loop effect
+                    if (reelInner.children.length < 30) {
+                        const symbolDiv = document.createElement('div');
+                        symbolDiv.className = 'reel-symbol';
+                        const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+                        if (useImages) {
+                            symbolDiv.innerHTML = `<img src="${randomSymbol}" alt="symbol">`;
+                        } else {
+                            symbolDiv.textContent = randomSymbol;
+                        }
+                        reelInner.appendChild(symbolDiv);
+                        symbolCount = reelInner.children.length;
+                    }
+                }, spinSpeed);
+
+                // Stop spinning after duration
+                setTimeout(() => {
+                    clearInterval(spinInterval);
+                    
+                    // Create final display with symbol before, main symbol, and symbol after
+                    reelInner.innerHTML = '';
+                    
+                    // Get symbols for display
+                    const resultIndex = symbols.indexOf(results[index]);
+                    const prevSymbol = symbols[(resultIndex - 1 + symbols.length) % symbols.length];
+                    const nextSymbol = symbols[(resultIndex + 1) % symbols.length];
+                    
+                    // Add previous symbol (50% visible above)
+                    const prevSymbolDiv = document.createElement('div');
+                    prevSymbolDiv.className = 'reel-symbol';
+                    if (useImages) {
+                        prevSymbolDiv.innerHTML = `<img src="${prevSymbol}" alt="symbol">`;
+                    } else {
+                        prevSymbolDiv.textContent = prevSymbol;
+                    }
+                    reelInner.appendChild(prevSymbolDiv);
+                    
+                    // Add main symbol (centered)
+                    const mainSymbolDiv = document.createElement('div');
+                    mainSymbolDiv.className = 'reel-symbol';
+                    if (useImages) {
+                        mainSymbolDiv.innerHTML = `<img src="${results[index]}" alt="symbol">`;
+                    } else {
+                        mainSymbolDiv.textContent = results[index];
+                    }
+                    reelInner.appendChild(mainSymbolDiv);
+                    
+                    // Add next symbol (50% visible below)
+                    const nextSymbolDiv = document.createElement('div');
+                    nextSymbolDiv.className = 'reel-symbol';
+                    if (useImages) {
+                        nextSymbolDiv.innerHTML = `<img src="${nextSymbol}" alt="symbol">`;
+                    } else {
+                        nextSymbolDiv.textContent = nextSymbol;
+                    }
+                    reelInner.appendChild(nextSymbolDiv);
+                    
+                    // Position to show the main symbol centered with 50% of prev and next visible
+                    reelInner.style.transform = 'translateY(-120px)';
+                    
+                    reels[index].classList.remove('spinning');
+                    
+                    // Check if all reels stopped
+                    if (index === 2) {
+                        setTimeout(() => finishSpin(results), 200);
+                    }
+                }, duration);
+            });
+        }
+
+        function finishSpin(results) {
+            // Check for win and calculate payout
+            let winAmount = 0;
+            if (results[0] === results[1] && results[1] === results[2]) {
+                // Jackpot - 10x bet
+                winAmount = betAmount * 10;
+                credits += winAmount;
+                message.textContent = `🎉 JACKPOT! Won ${winAmount} credits! 🎉`;
+                message.classList.add('winner');
+                stopAutoSpin();
+            } else if (results[0] === results[1] || results[1] === results[2] || results[0] === results[2]) {
+                // Two matching - 2x bet
+                winAmount = betAmount * 2;
+                credits += winAmount;
+                message.textContent = `Nice! Won ${winAmount} credits!`;
+            } else {
+                message.textContent = 'Try again!';
+            }
+
+            updateDisplay();
+            isSpinning = false;
+            
+            if (checkGameOver()) {
+                stopAutoSpin();
+                return;
+            }
+            
+            // Queue next auto spin
+            if (autoSpinActive) {
+                autoSpinTimer = setTimeout(spin, 1000);
+            }
+        }
+
+        // Bet controls
+        decreaseBetBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (betAmount > 10) {
+                betAmount -= 10;
+                updateDisplay();
+            }
+        });
+
+        increaseBetBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (betAmount < credits) {
+                betAmount += 10;
+                updateDisplay();
+            }
+        });
+
+        resetButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            credits = 100;
+            betAmount = 10;
+            sessionBest = 100;
+            hasNewRecord = false;
+            sessionBestDisplay.textContent = sessionBest;
+            updateDisplay();
+            gameOverDiv.style.display = 'none';
+            message.textContent = '';
+            message.classList.remove('winner');
+        });
+
+        // Name input handlers
+        submitNameBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            submitHighScoreName();
+        });
+
+        nameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.stopPropagation();
+                submitHighScoreName();
+            }
+        });
+
+        nameInput.addEventListener('input', (e) => {
+            e.target.value = e.target.value.toUpperCase();
+        });
+
+        function submitHighScoreName() {
+            const name = nameInput.value.trim().toUpperCase();
+            if (name.length === 3) {
+                highScoreName = name;
+                highScoreNameDisplay.textContent = `- ${highScoreName}`;
+                hasNewRecord = false;
+                nameInputModal.style.display = 'none';
+            } else {
+                alert('Please enter exactly 3 characters');
+            }
+        }
+
+        // Auto spin controls
+        function stopAutoSpin() {
+            autoSpinActive = false;
+            if (autoSpinTimer) {
+                clearTimeout(autoSpinTimer);
+                autoSpinTimer = null;
+            }
+            autoSpinBtn.textContent = 'Auto Spin: OFF';
+            autoSpinBtn.classList.remove('active');
+        }
+
+        autoSpinBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (autoSpinActive) {
+                stopAutoSpin();
+            } else {
+                autoSpinActive = true;
+                autoSpinBtn.textContent = 'Auto Spin: ON';
+                autoSpinBtn.classList.add('active');
+                if (!isSpinning) {
+                    spin();
+                }
+            }
+        });
+
+        // Fullscreen functionality
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        
+        fullscreenBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleFullscreen();
+        });
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullScreenElement) {
+                // Enter fullscreen
+                const elem = document.documentElement;
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.webkitRequestFullscreen) {
+                    elem.webkitRequestFullscreen();
+                } else if (elem.mozRequestFullScreen) {
+                    elem.mozRequestFullScreen();
+                } else if (elem.msRequestFullscreen) {
+                    elem.msRequestFullscreen();
+                }
+            } else {
+                // Exit fullscreen
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        }
+
+        // Click/tap anywhere to spin
+        document.body.addEventListener('click', spin);
+        document.body.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            spin();
+        });
+    </script>
+</body>
+</html>
