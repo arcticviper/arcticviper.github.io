@@ -189,11 +189,20 @@ fullscreenBtn.addEventListener('touchend', function(e) {
 
 // Gambling button - prevent touch conflicts with image switching
 const gamblingBtn = document.getElementById('gambling-btn');
+gamblingBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    window.location.href = 'gambling/slot-machine.html';
+});
 gamblingBtn.addEventListener('mousedown', function(e) {
+    e.stopPropagation();
+});
+gamblingBtn.addEventListener('mouseup', function(e) {
     e.stopPropagation();
 });
 gamblingBtn.addEventListener('touchstart', function(e) {
     e.stopPropagation();
+    e.preventDefault();
 });
 gamblingBtn.addEventListener('touchend', function(e) {
     e.stopPropagation();
