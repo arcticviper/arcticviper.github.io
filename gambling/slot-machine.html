@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="light">
+    <meta name="color-scheme" content="dark">
     <title>Slot Machine</title>
     <style>
         * {
@@ -22,19 +22,19 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             cursor: pointer;
             user-select: none;
-            color-scheme: light;
+            color-scheme: dark;
         }
 
         .container {
             text-align: center;
-            background: white;
+            background: #2a2a3e;
             padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
         }
 
         h1 {
-            color: #333;
+            color: #e0e0e0;
             margin-bottom: 30px;
         }
 
@@ -48,8 +48,8 @@
         .reel {
             width: 100px;
             height: 240px;
-            background: #f0f0f0;
-            border: 4px solid #333;
+            background: #1a1a2e;
+            border: 4px solid #667eea;
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -92,7 +92,7 @@
             font-weight: bold;
             min-height: 30px;
             margin-bottom: 20px;
-            color: #667eea;
+            color: #8a9ff0;
         }
 
         .message.winner {
@@ -106,31 +106,31 @@
         }
 
         .instruction {
-            color: #666;
+            color: #999;
             font-size: 18px;
         }
 
         .credits-section {
             margin-bottom: 20px;
             padding: 20px;
-            background: #f8f9fa;
+            background: #1e1e32;
             border-radius: 10px;
         }
 
         .credits-display {
             font-size: 28px;
             font-weight: bold;
-            color: #333;
+            color: #e0e0e0;
             margin-bottom: 15px;
         }
 
         .credits-amount {
-            color: #27ae60;
+            color: #2ecc71;
         }
 
         .high-score {
             font-size: 18px;
-            color: #667eea;
+            color: #8a9ff0;
             font-weight: bold;
             margin-bottom: 10px;
         }
@@ -145,7 +145,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             display: none;
             justify-content: center;
             align-items: center;
@@ -153,11 +153,11 @@
         }
 
         .name-input-box {
-            background: white;
+            background: #2a2a3e;
             padding: 30px;
             border-radius: 15px;
             text-align: center;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
         }
 
         .name-input-box h2 {
@@ -175,6 +175,8 @@
             border-radius: 5px;
             margin-bottom: 20px;
             letter-spacing: 10px;
+            background: #1a1a2e;
+            color: #e0e0e0;
         }
 
         .name-input-box button {
@@ -224,7 +226,7 @@
         .bet-display {
             font-size: 20px;
             font-weight: bold;
-            color: #333;
+            color: #e0e0e0;
             min-width: 100px;
         }
 
@@ -283,7 +285,7 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(42, 42, 62, 0.9);
             border: 2px solid #667eea;
             border-radius: 10px;
             width: 50px;
@@ -295,7 +297,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            color: #e0e0e0;
         }
 
         .fullscreen-button:hover {
