@@ -135,6 +135,145 @@ body {
         70px 40px 0 -17px #F0E68C;
 }
 
+#telegram-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 1001;
+    backdrop-filter: blur(10px);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+#telegram-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: scale(1.1);
+}
+
+#telegram-btn:active {
+    transform: scale(0.95);
+}
+
+#telegram-btn svg {
+    pointer-events: none;
+}
+
+#telegram-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+#telegram-overlay.active {
+    display: flex;
+}
+
+#telegram-overlay-content {
+    position: relative;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    max-width: 90vw;
+    max-height: 90vh;
+    backdrop-filter: blur(10px);
+}
+
+#telegram-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 32px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    z-index: 2001;
+}
+
+#telegram-close:hover {
+    transform: scale(1.2);
+}
+
+#telegram-image {
+    max-width: 300px;
+    max-height: 300px;
+    width: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+#telegram-title {
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+#hold-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 1001;
+    backdrop-filter: blur(10px);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    font-size: 24px;
+}
+
+#hold-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: scale(1.1);
+}
+
+#hold-btn:active {
+    transform: scale(0.95);
+}
+
+#hold-btn.active {
+    background: rgba(76, 175, 80, 0.6);
+    border-color: rgba(76, 175, 80, 0.8);
+}
+
 #gambling-btn {
     position: fixed;
     bottom: 20px;
@@ -223,6 +362,20 @@ body {
         bottom: 24px;
         left: 24px;
     }
+    
+    #hold-btn {
+        width: 56px;
+        height: 56px;
+        top: 24px;
+        right: 24px;
+    }
+    
+    #telegram-btn {
+        width: 56px;
+        height: 56px;
+        top: 24px;
+        left: 24px;
+    }
 }
 
 #fullscreen-btn svg {
@@ -269,24 +422,36 @@ body {
     }
 }
 
-h1 {
+#heading {
     position: fixed;
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
     background: rgba(0, 0, 0, 0.6);
-    color: white;
     padding: 16px 32px;
     border-radius: 25px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-size: 72px;
-    font-weight: 600;
     border: 2px solid rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(10px);
     z-index: 1000;
     user-select: none;
     -webkit-user-select: none;
+    text-align: center;
+}
+
+#heading h1 {
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 72px;
+    font-weight: 600;
     margin: 0;
+}
+
+#subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    margin: 4px 0 0 0;
 }
 
 #counter-value {
@@ -302,9 +467,16 @@ h1 {
         padding: 10px 16px;
     }
     
-    h1 {
+    #heading {
         top: 24px;
-        font-size: 60px;
         padding: 12px 24px;
+    }
+    
+    #heading h1 {
+        font-size: 60px;
+    }
+    
+    #subtitle {
+        font-size: 24px;
     }
 }

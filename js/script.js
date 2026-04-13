@@ -8,6 +8,61 @@ const counterLabel = document.getElementById('counter-label');
 
 let isMouseDown = false;
 let clickCount = 0;
+let holdActive = false;
+let holdInterval = null;
+
+// Hold button functionality
+const holdBtn = document.getElementById('hold-btn');
+
+function startHold() {
+    holdActive = true;
+    holdBtn.classList.add('active');
+    mainImage.src = image2;
+    emoteImage.src = 'images/emote.gif';
+    incrementCounter();
+    
+    holdInterval = setInterval(() => {
+        incrementCounter();
+    }, 200);
+}
+
+function stopHold() {
+    holdActive = false;
+    holdBtn.classList.remove('active');
+    clearInterval(holdInterval);
+    holdInterval = null;
+    mainImage.src = image1;
+    if (clickCount % 10 === 0) {
+        emoteImage.src = 'images/emote2.png';
+    } else {
+        emoteImage.src = 'images/emote.png';
+    }
+}
+
+holdBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (holdActive) {
+        stopHold();
+    } else {
+        startHold();
+    }
+});
+holdBtn.addEventListener('mousedown', function(e) {
+    e.stopPropagation();
+});
+holdBtn.addEventListener('touchstart', function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+});
+holdBtn.addEventListener('touchend', function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    if (holdActive) {
+        stopHold();
+    } else {
+        startHold();
+    }
+});
 
 // Function to increment and update counter
 function incrementCounter() {
@@ -34,7 +89,7 @@ function incrementCounter() {
 
 // Mouse events for desktop
 document.addEventListener('mousedown', function(e) {
-    if (e.target.closest('#gambling-btn') || e.target.closest('#fullscreen-btn')) return;
+    if (e.target.closest('#gambling-btn') || e.target.closest('#fullscreen-btn') || e.target.closest('#hold-btn') || e.target.closest('#telegram-btn') || e.target.closest('#telegram-overlay')) return;
     if (e.button === 0) { // Left click only
         isMouseDown = true;
         mainImage.src = image2;
@@ -60,7 +115,7 @@ document.addEventListener('mouseup', function(e) {
 // Touch events for mobile
 document.addEventListener('touchstart', function(e) {
     // Skip if touching interactive buttons
-    if (e.target.closest('#gambling-btn') || e.target.closest('#fullscreen-btn')) return;
+    if (e.target.closest('#gambling-btn') || e.target.closest('#fullscreen-btn') || e.target.closest('#hold-btn') || e.target.closest('#telegram-btn') || e.target.closest('#telegram-overlay')) return;
     e.preventDefault();
     mainImage.src = image2;
     // Use emote2.gif if next click will be a multiple of 10, otherwise use regular emote.gif
@@ -70,7 +125,7 @@ document.addEventListener('touchstart', function(e) {
 
 document.addEventListener('touchend', function(e) {
     // Skip if touching interactive buttons
-    if (e.target.closest('#gambling-btn') || e.target.closest('#fullscreen-btn')) return;
+    if (e.target.closest('#gambling-btn') || e.target.closest('#fullscreen-btn') || e.target.closest('#hold-btn') || e.target.closest('#telegram-btn') || e.target.closest('#telegram-overlay')) return;
     e.preventDefault();
     mainImage.src = image1;
     // Set correct emote based on click count
@@ -215,3 +270,56 @@ document.addEventListener('fullscreenchange', updateFullscreenIcon);
 document.addEventListener('webkitfullscreenchange', updateFullscreenIcon);
 document.addEventListener('mozfullscreenchange', updateFullscreenIcon);
 document.addEventListener('MSFullscreenChange', updateFullscreenIcon);
+
+// Telegram overlay functionality
+const telegramBtn = document.getElementById('telegram-btn');
+const telegramOverlay = document.getElementById('telegram-overlay');
+const telegramClose = document.getElementById('telegram-close');
+
+function openTelegramOverlay() {
+    telegramOverlay.classList.add('active');
+}
+
+function closeTelegramOverlay() {
+    telegramOverlay.classList.remove('active');
+}
+
+telegramBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    openTelegramOverlay();
+});
+telegramBtn.addEventListener('mousedown', function(e) {
+    e.stopPropagation();
+});
+telegramBtn.addEventListener('touchstart', function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+});
+telegramBtn.addEventListener('touchend', function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    openTelegramOverlay();
+});
+
+telegramClose.addEventListener('click', function(e) {
+    e.stopPropagation();
+    closeTelegramOverlay();
+});
+telegramClose.addEventListener('touchend', function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    closeTelegramOverlay();
+});
+
+// Close overlay when clicking outside the content
+telegramOverlay.addEventListener('click', function(e) {
+    if (e.target === telegramOverlay) {
+        closeTelegramOverlay();
+    }
+});
+telegramOverlay.addEventListener('touchend', function(e) {
+    if (e.target === telegramOverlay) {
+        e.preventDefault();
+        closeTelegramOverlay();
+    }
+});
