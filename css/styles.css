@@ -413,6 +413,10 @@ body {
     animation: pulse 1.5s infinite;
 }
 
+#click-counter.fullscreen-expanded {
+    width: 80%;
+}
+
 @keyframes pulse {
     0% {
         transform: translateX(-50%) scale(1);

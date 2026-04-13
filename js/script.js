@@ -11,6 +11,20 @@ let clickCount = 0;
 let holdActive = false;
 let holdInterval = null;
 
+const gamblingImages = [
+    'gambling/images/cherry.png',
+    'gambling/images/diamond.png',
+    'gambling/images/grape.png',
+    'gambling/images/lemon.png',
+    'gambling/images/orange.png',
+    'gambling/images/star.png',
+    'gambling/images/watermelon.png'
+];
+
+function getRandomGamblingImage() {
+    return gamblingImages[Math.floor(Math.random() * gamblingImages.length)];
+}
+
 // Hold button functionality
 const holdBtn = document.getElementById('hold-btn');
 
@@ -33,7 +47,7 @@ function stopHold() {
     holdInterval = null;
     mainImage.src = image1;
     if (clickCount % 10 === 0) {
-        emoteImage.src = 'images/emote2.png';
+        emoteImage.src = getRandomGamblingImage();
     } else {
         emoteImage.src = 'images/emote.png';
     }
@@ -105,7 +119,7 @@ document.addEventListener('mouseup', function(e) {
         mainImage.src = image1;
         // Set correct emote based on click count
         if (clickCount % 10 === 0) {
-            emoteImage.src = 'images/emote2.png';
+            emoteImage.src = getRandomGamblingImage();
         } else {
             emoteImage.src = 'images/emote.png';
         }
@@ -130,7 +144,7 @@ document.addEventListener('touchend', function(e) {
     mainImage.src = image1;
     // Set correct emote based on click count
     if (clickCount % 10 === 0) {
-        emoteImage.src = 'images/emote2.png';
+        emoteImage.src = getRandomGamblingImage();
     } else {
         emoteImage.src = 'images/emote.png';
     }
@@ -192,13 +206,19 @@ function updateFullscreenIcon() {
     if (isFullscreen()) {
         enterIcon.style.display = 'none';
         exitIcon.style.display = 'block';
-        fullscreenBtn.style.display = 'none'; // Hide button in fullscreen
-        clickCounter.classList.add('fullscreen-expanded'); // Expand click counter
+        fullscreenBtn.style.display = 'none';
+        clickCounter.classList.add('fullscreen-expanded');
+        telegramBtn.style.display = 'none';
+        gamblingBtn.style.display = 'none';
+        holdBtn.style.display = 'none';
     } else {
         enterIcon.style.display = 'block';
         exitIcon.style.display = 'none';
-        fullscreenBtn.style.display = 'flex'; // Show button when not in fullscreen
-        clickCounter.classList.remove('fullscreen-expanded'); // Restore click counter
+        fullscreenBtn.style.display = 'flex';
+        clickCounter.classList.remove('fullscreen-expanded');
+        telegramBtn.style.display = 'flex';
+        gamblingBtn.style.display = 'flex';
+        holdBtn.style.display = 'flex';
     }
 }
 
