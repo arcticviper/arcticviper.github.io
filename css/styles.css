@@ -173,7 +173,6 @@ body {
 }
 
 #telegram-overlay {
-    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -181,13 +180,20 @@ body {
     height: 100%;
     background: rgba(0, 0, 0, 0.8);
     z-index: 2000;
+    display: flex;
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(5px);
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 #telegram-overlay.active {
-    display: flex;
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 #telegram-overlay-content {
