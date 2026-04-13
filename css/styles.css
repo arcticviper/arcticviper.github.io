@@ -250,11 +250,6 @@ body {
     text-align: center;
 }
 
-#click-counter.fullscreen-expanded {
-    width: 80%;
-    max-width: 80%;
-}
-
 #click-counter.pulse {
     animation: pulse 1.5s infinite;
 }
