@@ -32,7 +32,8 @@ function startHold() {
     holdActive = true;
     holdBtn.classList.add('active');
     mainImage.src = image2;
-    emoteImage.src = 'images/emote.gif';
+    emoteImage.src = 'images/emote2.gif';
+    document.getElementById('click-counter').style.display = 'none';
     incrementCounter();
     
     holdInterval = setInterval(() => {
@@ -46,6 +47,7 @@ function stopHold() {
     clearInterval(holdInterval);
     holdInterval = null;
     mainImage.src = image1;
+    document.getElementById('click-counter').style.display = '';
     if (clickCount % 10 === 0) {
         emoteImage.src = getRandomGamblingImage();
     } else {
@@ -114,6 +116,7 @@ document.addEventListener('mousedown', function(e) {
 });
 
 document.addEventListener('mouseup', function(e) {
+    if (holdActive) return;
     if (e.button === 0) { // Left click only
         isMouseDown = false;
         mainImage.src = image1;
@@ -140,6 +143,7 @@ document.addEventListener('touchstart', function(e) {
 document.addEventListener('touchend', function(e) {
     // Skip if touching interactive buttons
     if (e.target.closest('#gambling-btn') || e.target.closest('#fullscreen-btn') || e.target.closest('#hold-btn') || e.target.closest('#telegram-btn') || e.target.closest('#telegram-overlay')) return;
+    if (holdActive) return;
     e.preventDefault();
     mainImage.src = image1;
     // Set correct emote based on click count
