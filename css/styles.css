@@ -464,9 +464,16 @@ body {
     margin: 4px 0 0 0;
 }
 
-#counter-value {
-    font-weight: 700;
-    color: #4CAF50;
+#counter-text {
+    display: block;
+    outline: none;
+    cursor: text;
+    min-width: 50px;
+    word-break: break-word;
+}
+
+#counter-text:focus {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 /* Mobile responsive adjustments */

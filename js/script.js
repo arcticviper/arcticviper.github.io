@@ -3,8 +3,7 @@ const emoteImage = document.getElementById('emote');
 const starsBurst = document.getElementById('stars-burst');
 const image1 = 'images/image1.jpg';
 const image2 = 'images/image2.jpg';
-const counterValue = document.getElementById('counter-value');
-const counterLabel = document.getElementById('counter-label');
+const counterText = document.getElementById('counter-text');
 
 let isMouseDown = false;
 let clickCount = 0;
@@ -33,7 +32,6 @@ function startHold() {
     holdBtn.classList.add('active');
     mainImage.src = image2;
     emoteImage.src = 'images/emote2.gif';
-    document.getElementById('click-counter').style.display = 'none';
     incrementCounter();
     
     holdInterval = setInterval(() => {
@@ -47,7 +45,6 @@ function stopHold() {
     clearInterval(holdInterval);
     holdInterval = null;
     mainImage.src = image1;
-    document.getElementById('click-counter').style.display = '';
     if (clickCount % 10 === 0) {
         emoteImage.src = getRandomGamblingImage();
     } else {
@@ -85,27 +82,21 @@ function incrementCounter() {
     clickCount++;
     
     if (clickCount === 1) {
-        // After first click, change text and show counter, remove pulse animation
-        counterLabel.innerHTML = '<span style="font-size: 20px; display: block; text-align: center;">Hold to Pet</span>Times Petted: ';
-        counterValue.style.display = 'inline';
         document.getElementById('click-counter').classList.remove('pulse');
     }
     
     // Trigger stars burst animation on multiples of 10
     if (clickCount % 10 === 0) {
         starsBurst.classList.add('active');
-        // Remove the class after animation completes
         setTimeout(() => {
             starsBurst.classList.remove('active');
         }, 1000);
     }
-    
-    counterValue.textContent = clickCount;
 }
 
 // Mouse events for desktop
 document.addEventListener('mousedown', function(e) {
-    if (e.target.closest('#gambling-btn') || e.target.closest('#fullscreen-btn') || e.target.closest('#hold-btn') || e.target.closest('#telegram-btn') || e.target.closest('#telegram-overlay')) return;
+    if (e.target.closest('#gambling-btn') || e.target.closest('#fullscreen-btn') || e.target.closest('#hold-btn') || e.target.closest('#telegram-btn') || e.target.closest('#telegram-overlay') || e.target.closest('#counter-text')) return;
     if (e.button === 0) { // Left click only
         isMouseDown = true;
         mainImage.src = image2;
@@ -132,7 +123,7 @@ document.addEventListener('mouseup', function(e) {
 // Touch events for mobile
 document.addEventListener('touchstart', function(e) {
     // Skip if touching interactive buttons
-    if (e.target.closest('#gambling-btn') || e.target.closest('#fullscreen-btn') || e.target.closest('#hold-btn') || e.target.closest('#telegram-btn') || e.target.closest('#telegram-overlay')) return;
+    if (e.target.closest('#gambling-btn') || e.target.closest('#fullscreen-btn') || e.target.closest('#hold-btn') || e.target.closest('#telegram-btn') || e.target.closest('#telegram-overlay') || e.target.closest('#counter-text')) return;
     e.preventDefault();
     mainImage.src = image2;
     // Use emote2.gif if next click will be a multiple of 10, otherwise use regular emote.gif
@@ -142,7 +133,7 @@ document.addEventListener('touchstart', function(e) {
 
 document.addEventListener('touchend', function(e) {
     // Skip if touching interactive buttons
-    if (e.target.closest('#gambling-btn') || e.target.closest('#fullscreen-btn') || e.target.closest('#hold-btn') || e.target.closest('#telegram-btn') || e.target.closest('#telegram-overlay')) return;
+    if (e.target.closest('#gambling-btn') || e.target.closest('#fullscreen-btn') || e.target.closest('#hold-btn') || e.target.closest('#telegram-btn') || e.target.closest('#telegram-overlay') || e.target.closest('#counter-text')) return;
     if (holdActive) return;
     e.preventDefault();
     mainImage.src = image1;
